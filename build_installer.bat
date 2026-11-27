@@ -1,10 +1,12 @@
 @echo off
 setlocal
+cd /d "%~dp0"
+
 echo ============================================
 echo  Building PersianRatesWidget Standalone EXE
 echo ============================================
 
-dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o .\publish
+dotnet publish "%~dp0PersianRatesWidget.csproj" -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o "%~dp0publish"
 if %errorlevel% neq 0 (
     echo [ERROR] dotnet publish failed. Make sure .NET 8 SDK is installed.
     pause
@@ -20,7 +22,7 @@ set "ISCC_PATH=%ProgramFiles(x86)%\Inno Setup 6\ISCC.exe"
 if not exist "%ISCC_PATH%" set "ISCC_PATH=%LocalAppData%\Programs\Inno Setup 6\ISCC.exe"
 
 if exist "%ISCC_PATH%" (
-    "%ISCC_PATH%" installer.iss
+    "%ISCC_PATH%" "%~dp0installer.iss"
     if %errorlevel% equ 0 (
         echo.
         echo [SUCCESS] Installer created in: .\installer_output\PersianRatesWidget_Setup_v1.0.0.exe
