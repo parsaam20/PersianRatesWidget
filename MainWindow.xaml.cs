@@ -55,13 +55,32 @@ public partial class MainWindow : Window
 
         var icon = new WinForms.NotifyIcon
         {
-            Icon = Drawing.SystemIcons.Application,
+            Icon = LoadEmbeddedTrayIcon(),
             Text = "نرخ لحظه‌ای بازار",
             Visible = true,
             ContextMenuStrip = menu
         };
         icon.DoubleClick += (_, _) => ToggleVisibility();
         return icon;
+    }
+
+    private static Drawing.Icon LoadEmbeddedTrayIcon()
+    {
+        try
+        {
+            var streamInfo = System.Windows.Application.GetResourceStream(
+                new Uri("pack://application:,,,/Assets/app.ico"));
+            if (streamInfo is not null)
+            {
+                return new Drawing.Icon(streamInfo.Stream);
+            }
+        }
+        catch
+        {
+            // Fallback to default system icon
+        }
+
+        return Drawing.SystemIcons.Application;
     }
 
     private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
