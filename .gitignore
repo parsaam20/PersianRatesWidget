@@ -1,0 +1,15 @@
+# خروجی‌های بیلد .NET
+bin/
+obj/
+publish/
+installer_output/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.cache
+
+# فایل‌های لوکال
+*.log
+*.tmp
